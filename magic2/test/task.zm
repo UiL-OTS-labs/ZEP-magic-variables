@@ -1,0 +1,68 @@
+/******************************************************************************\
+FILE:           
+AUTHOR:         Duijndam m.j.a.duijndam AT server.nl
+ADAPTED BY:     -
+
+DESCRIPTION:    Experiment with one single test page and trial.
+
+
+HISTORY:
+2016-11-11 duijn119   Created.
+
+\******************************************************************************/
+
+//import instructions;
+import defs;
+import test_page;
+
+Block task
+{
+
+    Part instructions
+    {
+        on_event:entry() 
+        {
+            pause_page.set_text(
+                "These are the instructions for this experiment."
+                );
+            pause_page.action(this);
+        }
+    }
+
+    Part blank1
+    {
+        on_event:entry()
+        {
+            blank_page.action_auto(this, 500ms);
+        }
+    }
+
+    Block
+    {
+        init()
+        {
+            num_cycles = 1;
+        }
+            
+        Trial trial
+        {
+            on_event:entry()
+            {
+                test_page.action(this, reference_time);
+            }
+        }
+    }
+    
+    Part blank2
+    {
+        on_event:entry()
+        {
+            blank_page.action_auto(this, 500ms);
+        }
+    }
+}
+
+void action (Part caller)
+{
+    task.enter(caller);
+}

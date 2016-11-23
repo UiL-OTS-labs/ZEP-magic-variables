@@ -1,0 +1,38 @@
+/******************************************************************************\
+FILE:           
+AUTHOR:         duijn119 <email@server.nl>
+ADAPTED BY:     -
+
+DESCRIPTION:    This script is used to explain how the "magic" variables work
+                when using Zep. The magic variable seem to exist, but you don't
+                really know where. Many users find this strange and a bit
+                confusing. Although when these variables are used correctly,
+                you'll find that they contribute to the fexibility of Zep and
+                it makes Zep experiments appear very consitent with each other
+                so you can recognize a Zep experiment from miles away.
+                So the aim of this tutorial is to explain where these come from
+                and how to use them properly.
+
+
+HISTORY:
+2016-11-10 duijn119   Created.
+
+\******************************************************************************/
+
+// Import section of your script!
+// In the import section of the script zep modules are imported.
+// Modules provide all kinds of zep objects, ranging from text strings
+
+import std_windows1;
+
+
+Experiment experiment
+{
+    on_event:entry()
+    {
+        println("Your experiment finished successfully!");
+        terminate; 
+    }
+}
+
+

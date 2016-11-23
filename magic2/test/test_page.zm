@@ -1,0 +1,197 @@
+/******************************************************************************\
+FILE:           
+AUTHOR:         duijn119 <email@server.nl>
+ADAPTED BY:     -
+
+DESCRIPTION:    Show some buttons.
+
+
+HISTORY:
+2016-11-11 duijn119   Created.
+
+\******************************************************************************/
+
+Page test_page
+{
+    init()
+    {
+        fill_pattern_color = TEST_PAGE_COLOR;
+    }
+
+    Response response
+    {
+    }
+
+    VerticalLayout layout
+    {
+        init()
+        {
+            spacing = 50;
+            height  = 0;
+            is_visible = true;
+        }
+
+        // Upper two buttons. 
+        HorizontalLayout h1
+        {
+            init()
+            {
+                spacing = 25;
+                options = LAYOUT_EQUAL_WIDTH;
+                is_visible = true;
+            }
+
+            CanvasGadget c1
+            {
+                init ()
+                {
+                    size = 400,250;
+                    offset_x = width/2;
+                    offset_y = height/2;
+                }
+
+                TextShape shape
+                {
+                    init()
+                    {
+                        text            = "upper left";
+                        font_family     = TEST_PAGE_STIMULUS_FONT_FAMILY;
+                        font_size       = TEST_PAGE_STIMULUS_FONT_SIZE;
+                        line_pattern_color = TEST_PAGE_STIMULUS_TEXT_COLOR;
+                        hor_alignment   = ALIGN_CENTER;
+                        ver_alignment   = ALIGN_CENTER;
+                    }
+                }
+            }
+
+            CanvasGadget c2
+            {
+                init ()
+                {
+                    size = 400,250;
+                    offset_x = width/2;
+                    offset_y = height/2;
+                }
+
+                TextShape shape
+                {
+                    init()
+                    {
+                        text            = "upper right";
+                        font_family     = "Times New Roman";
+                        font_size       = TEST_PAGE_STIMULUS_FONT_SIZE;
+                        line_pattern_color  = TEST_PAGE_STIMULUS_TEXT_COLOR;
+                        hor_alignment   = ALIGN_CENTER;
+                        ver_alignment   = ALIGN_CENTER;
+                    }
+                }
+            }
+        }
+
+        HorizontalLayout h2
+        {
+            init()
+            {
+                spacing = 25;
+                options = LAYOUT_EQUAL_WIDTH;
+                is_visible = true;
+            }
+
+            CanvasGadget c3
+            {
+                init ()
+                {
+                    size = 400,250;
+                    offset_x = width/2;
+                    offset_y = height/2;
+                }
+
+                TextShape shape
+                {
+                    init()
+                    {
+                        text            = "lower left";
+                        font_family     = TEST_PAGE_STIMULUS_FONT_FAMILY;
+                        font_size       = TEST_PAGE_STIMULUS_FONT_SIZE;
+                        line_pattern_color = rgbi:255/128/0;
+                        hor_alignment   = ALIGN_CENTER;
+                        ver_alignment   = ALIGN_CENTER;
+                    }
+                }
+            }
+            
+            CanvasGadget c4
+            {
+                init ()
+                {
+                    size = 400,250;
+                    offset_x = width/2;
+                    offset_y = height/2;
+                }
+
+                TextShape shape
+                {
+                    init()
+                    {
+                        text            = "lower right";
+                        font_family     = TEST_PAGE_STIMULUS_FONT_FAMILY;
+                        font_size       = 42; 
+                        line_pattern_color = TEST_PAGE_STIMULUS_TEXT_COLOR;
+                        hor_alignment   = ALIGN_CENTER;
+                        ver_alignment   = ALIGN_CENTER;
+                    }
+                }
+            }
+        }
+
+        ButtonGadget continue_button
+        {
+            init()
+            {
+                text            = NEXT_BUTTON_TEXT;
+                font_family     = TEST_PAGE_BUTTON_FONT_FAMILY;
+                font_size       = TEST_PAGE_BUTTON_FONT_SIZE;
+                fill_pattern_color = TEST_PAGE_BUTTON_COLOR;
+                size = 150, 50;
+            }
+
+            on_event:activate()
+            {
+                done(CONTINUE);
+            }
+        }
+
+        void start_stimulus(time t)
+        {
+            layout.start(t);
+            layout.h1.c1.start(t);
+            layout.h1.c1.shape.start(t);
+            layout.h1.c2.start(t);
+            layout.h1.c2.shape.start(t);
+            layout.h2.c3.start(t);
+            layout.h2.c3.shape.start(t);
+            layout.h2.c4.start(t);
+            layout.h2.c4.shape.start(t);
+            continue_button.start(t, -1);
+        }
+    }
+
+    void setup()
+    {
+        test_page_overlay.setup(this);
+    }
+
+    void done(int msgid)
+    {
+        signal_target(msgid);
+        control.clear_status();
+    }
+
+    void action(Object caller, time t)
+    {
+        target = caller;
+        test_window1.show_test_page(this, t + 500ms);
+        layout.start_stimulus(t + 500ms);
+    }
+}
+

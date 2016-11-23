@@ -1,0 +1,93 @@
+/******************************************************************************\
+FILE:           
+AUTHOR:         duijn119 <email@server.nl>
+ADAPTED BY:     -
+
+DESCRIPTION:    This script is written to introduce the reader to many variables
+                that are used throughout many Zep experiments. Although they
+                are used very often, it remains unclear where they come from.
+                Although the existence might be unclear, they tend to be very
+                usefull.
+
+
+HISTORY:
+2016-11-10 duijn119   Created.
+
+\******************************************************************************/
+
+requires 1.14;
+
+// Import section of your script!
+// In the import section of the script zep modules are imported.
+// Modules provide all kinds of zep objects, ranging from text strings
+
+import std_windows1;
+
+// Import default text strings for the English language.
+import std_texts_en;
+
+// Import a welcome, exit, pause, and blank page
+// which are used to display: a Welcome message to the user, a goodbye message
+// to the user, a pause page to display instructions to the user and a blank
+// (empty page) to the user respectively.
+import std_entry_page1;
+import std_exit_page1;
+import std_pause_page;
+import std_blank_page;
+
+// import task.zm from the directory test in the experiment directory.
+import test::task;
+
+//
+// The control window will start the experiment.
+//
+Experiment experiment
+{
+    on_event:entry()
+    {
+        show_test_windows();
+    }
+
+    on_event:message()
+    {
+        // Stop the experiment and mark it as unfinished so you don't
+        // extract it with zepdbextract(unless you want to).
+        if (message_sender == control && message_arg == SYS_STOP)
+        {
+            control.mark_experiment_aborted();
+            thankyou.enter();
+        }
+    }
+
+    // Displays the welcome message.
+    Part welcome
+    {
+        on_event:entry()
+        {
+            entry_page.set_text(WELCOME_TEXT); // <magic>
+            entry_page.action(this, 0s);
+        }
+    }
+
+    Part phase1
+    {
+        on_event:entry()
+        {
+            // calls 
+            test::action(this);
+        }
+    }
+
+    Part thankyou
+    {
+        on_event:entry()
+        {
+            control.end_experiment(); // for database purposes.
+
+            exit_page.set_text(THANK_YOU_TEXT); // <magic>
+            exit_page.action(this, 0s);
+        }
+    }
+
+}
+
