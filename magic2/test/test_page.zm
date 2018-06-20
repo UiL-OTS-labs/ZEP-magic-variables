@@ -176,6 +176,12 @@ Page test_page
         }
     }
 
+    on_event:key_press()
+    {
+        if (input_key == ' ')
+            done(CONTINUE);
+    }
+
     void setup()
     {
         test_page_overlay.setup(this);
